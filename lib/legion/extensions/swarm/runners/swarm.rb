@@ -16,9 +16,7 @@ module Legion
           end
 
           def join_swarm(charter_id:, agent_id:, role:, **)
-            unless Helpers::Charter.valid_role?(role)
-              return { error: :invalid_role, valid: Helpers::Charter::ROLES }
-            end
+            return { error: :invalid_role, valid: Helpers::Charter::ROLES } unless Helpers::Charter.valid_role?(role)
 
             result = swarm_store.join(charter_id, agent_id: agent_id, role: role)
             case result

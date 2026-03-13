@@ -14,15 +14,15 @@ module Legion
 
           def new_charter(name:, objective:, roles: [], max_agents: 10, timeout: 3600)
             {
-              charter_id:  SecureRandom.uuid,
-              name:        name,
-              objective:   objective,
-              roles:       roles.empty? ? ROLES : roles,
-              max_agents:  max_agents,
-              timeout:     timeout,
-              status:      :forming,
-              agents:      [],
-              created_at:  Time.now.utc,
+              charter_id:   SecureRandom.uuid,
+              name:         name,
+              objective:    objective,
+              roles:        roles.empty? ? ROLES : roles,
+              max_agents:   max_agents,
+              timeout:      timeout,
+              status:       :forming,
+              agents:       [],
+              created_at:   Time.now.utc,
               completed_at: nil
             }
           end
