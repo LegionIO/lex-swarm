@@ -88,6 +88,12 @@ Legion::Extensions::Swarm::Runners::Swarm.swarm_status
 # => { total: 5 }
 ```
 
+## Actors
+
+| Actor | Interval | What It Does |
+|-------|----------|--------------|
+| `StaleCheck` | Every 3600s | Disbands `:forming` or `:active` swarms that have exceeded `SWARM_STALE_TIMEOUT` (86400s), enforcing the stale timeout |
+
 ## Development
 
 ```bash
