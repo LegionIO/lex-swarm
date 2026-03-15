@@ -7,8 +7,9 @@ module Legion
     module Swarm
       module Helpers
         module Charter
-          ROLES = %i[finder fixer validator reviewer coordinator].freeze
-          STATUSES = %i[forming active completing disbanded failed].freeze
+          ROLES              = %i[finder fixer validator reviewer coordinator].freeze
+          STATUSES           = %i[forming active completing disbanded failed].freeze
+          SWARM_STALE_TIMEOUT = 86_400 # 24 hours
 
           module_function
 

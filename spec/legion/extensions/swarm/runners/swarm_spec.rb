@@ -50,4 +50,35 @@ RSpec.describe Legion::Extensions::Swarm::Runners::Swarm do
       expect(result[:count]).to eq(1)
     end
   end
+
+  describe '#timeout_stale_swarms' do
+    it 'returns zero disbanded when store is empty' do
+      result = client.timeout_stale_swarms
+      expect(result[:disbanded]).to eq(0)
+      expect(result[:disbanded_ids]).to eq([])
+    end
+
+    it 'does not disband a freshly created swarm' do
+      client.create_swarm(name: 'fresh', objective: 'test')
+      result = client.timeout_stale_swarms
+      expect(result[:disbanded]).to eq(0)
+    end
+
+    it 'disbands a stale forming swarm' do
+      swarm = client.create_swarm(name: 'stale', objective: 'test')
+      # backdate created_at past the timeout threshold
+      store = client.send(:swarm_store)
+      store.charters[swarm[:charter_id]][:created_at] = Time.now.utc - 90_000
+      result = client.timeout_stale_swarms
+      expect(result[:disbanded]).to eq(1)
+      expect(result[:disbanded_ids]).to include(swarm[:charter_id])
+    end
+
+    it 'reports correct checked count' do
+      client.create_swarm(name: 's1', objective: 'test')
+      client.create_swarm(name: 's2', objective: 'test')
+      result = client.timeout_stale_swarms
+      expect(result[:checked]).to eq(2)
+    end
+  end
 end

@@ -69,6 +69,21 @@ module Legion
             { total: total }
           end
 
+          def timeout_stale_swarms(**)
+            now        = Time.now.utc
+            timeout    = Helpers::Charter::SWARM_STALE_TIMEOUT
+            disbanded  = []
+            swarm_store.charters.each_value do |charter|
+              next unless %i[forming active].include?(charter[:status])
+              next unless now - charter[:created_at] > timeout
+
+              charter[:status] = :disbanded
+              disbanded << charter[:charter_id]
+            end
+            Legion::Logging.debug "[swarm] stale check: checked=#{swarm_store.charters.size} disbanded=#{disbanded.size}"
+            { checked: swarm_store.charters.size, disbanded: disbanded.size, disbanded_ids: disbanded }
+          end
+
           private
 
           def swarm_store
