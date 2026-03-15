@@ -22,23 +22,28 @@ Swarm orchestration and charter system for the LegionIO cognitive architecture. 
 lib/legion/extensions/swarm/
   version.rb
   helpers/
-    charter.rb      # ROLES, STATUSES, new_charter factory, valid_role?, valid_status?
+    charter.rb      # ROLES, STATUSES, SWARM_STALE_TIMEOUT, new_charter factory, valid_role?, valid_status?
     swarm_store.rb  # SwarmStore class - create, get, join, leave, complete, active_charters
   runners/
     swarm.rb        # create_swarm, join_swarm, leave_swarm, complete_swarm, get_swarm,
-                    # active_swarms, swarm_status
+                    # active_swarms, swarm_status, timeout_stale_swarms
+  actors/
+    stale_check.rb  # StaleCheck - Every 3600s, calls timeout_stale_swarms
 spec/
   legion/extensions/swarm/
     runners/
       swarm_spec.rb
+    actors/
+      stale_check_spec.rb
     client_spec.rb
 ```
 
 ## Key Constants (Helpers::Charter)
 
 ```ruby
-ROLES    = %i[finder fixer validator reviewer coordinator]
-STATUSES = %i[forming active completing disbanded failed]
+ROLES               = %i[finder fixer validator reviewer coordinator]
+STATUSES            = %i[forming active completing disbanded failed]
+SWARM_STALE_TIMEOUT = 86_400  # 24 hours
 ```
 
 `new_charter` accepts `roles: []` — if empty, defaults to all five roles.
@@ -58,6 +63,12 @@ The status transitions automatically: `:forming` -> `:active` when the first age
 - Appends `completed_at` timestamp
 
 `active_charters` filters by `status == :active` only (not `:forming` or `:completing`).
+
+## Actors
+
+| Actor | Interval | Runner Method | What It Does |
+|-------|----------|---------------|--------------|
+| `StaleCheck` | Every 3600s | `timeout_stale_swarms` | Iterates all charters; disbands any `:forming` or `:active` swarm older than `SWARM_STALE_TIMEOUT` (86400s) by setting status to `:disbanded` |
 
 ## Runner Symbol-to-Hash Mapping
 
@@ -79,6 +90,7 @@ The runner translates `SwarmStore` symbol results to response hashes using a Has
 
 ## Development Notes
 
-- The `timeout:` field is stored on the charter but not enforced in the current implementation — no automatic expiration
-- `:disbanded` status exists in STATUSES but is not set by any runner method currently
+- The `timeout:` field is stored on the charter but is distinct from `SWARM_STALE_TIMEOUT` — the per-charter timeout field is not enforced; `SWARM_STALE_TIMEOUT` is enforced by the `StaleCheck` actor
+- `:disbanded` status is now set by `timeout_stale_swarms` when a swarm exceeds `SWARM_STALE_TIMEOUT`
 - `active_charters` only returns `:active` status; `:forming` swarms (no members yet) are not included
+- `timeout_stale_swarms` checks `created_at` age (not `updated_at`) — long-lived but active swarms will still be disbanded if they exceed 24 hours
