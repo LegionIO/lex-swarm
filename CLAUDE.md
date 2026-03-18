@@ -11,7 +11,7 @@ Swarm orchestration and charter system for the LegionIO cognitive architecture. 
 ## Gem Info
 
 - **Gem name**: `lex-swarm`
-- **Version**: `0.1.0`
+- **Version**: `0.1.1`
 - **Module**: `Legion::Extensions::Swarm`
 - **Ruby**: `>= 3.4`
 - **License**: MIT
