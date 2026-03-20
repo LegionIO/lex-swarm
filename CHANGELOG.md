@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.2] - 2026-03-20
+
+### Added
+- `Helpers::SubAgent` module with `spawn` method for depth-tracked recursive sub-agent creation
+- `Runners::SpawnChild` module delegating to SubAgent for task spawning via AMQP
+
 ## [0.1.1] - 2026-03-14
 
 ### Added
