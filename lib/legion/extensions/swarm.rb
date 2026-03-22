@@ -7,6 +7,7 @@ require 'legion/extensions/swarm/helpers/sub_agent'
 require 'legion/extensions/swarm/helpers/workspace'
 require 'legion/extensions/swarm/runners/swarm'
 require 'legion/extensions/swarm/runners/spawn_child'
+require 'legion/extensions/swarm/runners/workspace'
 
 module Legion
   module Extensions
