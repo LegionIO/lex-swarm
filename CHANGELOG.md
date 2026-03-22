@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.2.1] - 2026-03-22
+
+### Changed
+- Tightened `legion-gaia` dev dependency to `>= 0.9.9`
+
 ## [0.2.0] - 2026-03-22
 
 ### Added

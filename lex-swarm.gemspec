@@ -25,5 +25,5 @@ Gem::Specification.new do |spec|
     Dir.glob('{lib,spec}/**/*') + %w[lex-swarm.gemspec Gemfile]
   end
   spec.require_paths = ['lib']
-  spec.add_development_dependency 'legion-gaia'
+  spec.add_development_dependency 'legion-gaia', '>= 0.9.9'
 end
