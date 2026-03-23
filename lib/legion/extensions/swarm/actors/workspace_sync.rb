@@ -8,6 +8,9 @@ module Legion
     module Swarm
       module Actors
         class WorkspaceSync
+          include Legion::Extensions::Helpers::Lex if Legion::Extensions.const_defined?(:Helpers) &&
+                                                      Legion::Extensions::Helpers.const_defined?(:Lex)
+
           ROUTING_PREFIX = 'swarm.workspace'
 
           def publish_change(charter_id:, key:, operation:, value: nil, author: nil, version: nil, **) # rubocop:disable Metrics/ParameterLists
@@ -19,10 +22,10 @@ module Legion
                             timestamp: Time.now.utc.to_s }
 
             Legion::Transport.publish(routing_key: routing_key, payload: payload)
-            Legion::Logging.debug "[swarm-workspace-sync] published #{operation} #{key} to #{routing_key}"
+            log.debug "[swarm-workspace-sync] published #{operation} #{key} to #{routing_key}"
             { success: true, routing_key: routing_key }
           rescue StandardError => e
-            Legion::Logging.warn "[swarm-workspace-sync] publish failed: #{e.message}"
+            log.warn "[swarm-workspace-sync] publish failed: #{e.message}"
             { success: true, skipped: :publish_error, message: e.message }
           end
 

@@ -7,11 +7,12 @@ RSpec.describe Legion::Extensions::Swarm::Actors::WorkspaceSync do
   subject(:actor) { described_class.allocate }
 
   describe '#publish_change' do
-    it 'returns skipped when transport is not available' do
+    it 'returns skipped when transport publish fails' do
+      allow(Legion::Transport).to receive(:publish).and_raise(StandardError, 'not connected')
       result = actor.publish_change(charter_id: 'c1', key: 'k', value: 'v',
                                     author: 'a', version: 1, operation: :put)
       expect(result[:success]).to be true
-      expect(result[:skipped]).to eq(:no_transport)
+      expect(result[:skipped]).to eq(:publish_error)
     end
   end
 

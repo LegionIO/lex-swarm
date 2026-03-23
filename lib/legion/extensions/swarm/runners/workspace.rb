@@ -12,7 +12,7 @@ module Legion
 
           def workspace_put(charter_id:, key:, value:, author:, **)
             entry = workspace.put(charter_id, key: key, value: value, author: author)
-            Legion::Logging.debug "[swarm-workspace] put: charter=#{charter_id[0..7]} key=#{key} v=#{entry[:version]}"
+            log.debug "[swarm-workspace] put: charter=#{charter_id[0..7]} key=#{key} v=#{entry[:version]}"
             { success: true, key: key, version: entry[:version], charter_id: charter_id }
           end
 
@@ -33,7 +33,7 @@ module Legion
           def workspace_delete(charter_id:, key:, **)
             removed = workspace.delete(charter_id, key: key)
             if removed
-              Legion::Logging.debug "[swarm-workspace] delete: charter=#{charter_id[0..7]} key=#{key}"
+              log.debug "[swarm-workspace] delete: charter=#{charter_id[0..7]} key=#{key}"
               { success: true, key: key, charter_id: charter_id }
             else
               { success: false, reason: :not_found, key: key, charter_id: charter_id }
@@ -42,7 +42,7 @@ module Legion
 
           def workspace_clear(charter_id:, **)
             workspace.clear_charter(charter_id)
-            Legion::Logging.debug "[swarm-workspace] clear: charter=#{charter_id[0..7]}"
+            log.debug "[swarm-workspace] clear: charter=#{charter_id[0..7]}"
             { success: true, charter_id: charter_id }
           end
 
