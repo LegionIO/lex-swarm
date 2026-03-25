@@ -8,6 +8,7 @@ module Legion
           def time = 300
           def run_now? = false
           def use_runner? = false
+          def runner_class = self.class
           def check_subtask? = false
           def generate_task? = false
 

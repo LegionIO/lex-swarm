@@ -1,5 +1,10 @@
 # Changelog
 
+## [Unreleased]
+
+### Fixed
+- Move WorkspaceSync from actors/ to helpers/ — it's a service class, not an actor; prevents framework actor discovery error
+
 ## [0.2.2] - 2026-03-22
 
 ### Changed

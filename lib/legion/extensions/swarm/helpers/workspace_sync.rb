@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 require 'time'
-require_relative '../helpers/workspace'
+require_relative 'workspace'
 
 module Legion
   module Extensions
     module Swarm
-      module Actors
+      module Helpers
         class WorkspaceSync
           include Legion::Extensions::Helpers::Lex if Legion::Extensions.const_defined?(:Helpers) &&
                                                       Legion::Extensions::Helpers.const_defined?(:Lex)
