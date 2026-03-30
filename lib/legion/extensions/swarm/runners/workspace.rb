@@ -7,8 +7,8 @@ module Legion
     module Swarm
       module Runners
         module Workspace
-          include Legion::Extensions::Helpers::Lex if Legion::Extensions.const_defined?(:Helpers) &&
-                                                      Legion::Extensions::Helpers.const_defined?(:Lex)
+          include Legion::Extensions::Helpers::Lex if Legion::Extensions.const_defined?(:Helpers, false) &&
+                                                      Legion::Extensions::Helpers.const_defined?(:Lex, false)
 
           def workspace_put(charter_id:, key:, value:, author:, **)
             entry = workspace.put(charter_id, key: key, value: value, author: author)

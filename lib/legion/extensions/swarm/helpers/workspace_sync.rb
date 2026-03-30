@@ -8,13 +8,13 @@ module Legion
     module Swarm
       module Helpers
         class WorkspaceSync
-          include Legion::Extensions::Helpers::Lex if Legion::Extensions.const_defined?(:Helpers) &&
-                                                      Legion::Extensions::Helpers.const_defined?(:Lex)
+          include Legion::Extensions::Helpers::Lex if Legion::Extensions.const_defined?(:Helpers, false) &&
+                                                      Legion::Extensions::Helpers.const_defined?(:Lex, false)
 
           ROUTING_PREFIX = 'swarm.workspace'
 
-          def publish_change(charter_id:, key:, operation:, value: nil, author: nil, version: nil, **) # rubocop:disable Metrics/ParameterLists
-            return { success: true, skipped: :no_transport } unless defined?(Legion::Transport)
+          def publish_change(charter_id:, key:, operation:, value: nil, author: nil, version: nil, **)
+            return { success: true, skipped: :no_transport } unless Legion.const_defined?(:Transport, false)
 
             routing_key = "#{ROUTING_PREFIX}.#{charter_id}"
             payload     = { charter_id: charter_id, key: key, value: value,
@@ -29,7 +29,7 @@ module Legion
             { success: true, skipped: :publish_error, message: e.message }
           end
 
-          def apply_incoming(charter_id:, key:, operation:, value: nil, author: nil, version: nil, timestamp: nil, **) # rubocop:disable Metrics/ParameterLists
+          def apply_incoming(charter_id:, key:, operation:, value: nil, author: nil, version: nil, timestamp: nil, **)
             op = operation.to_s
             case op
             when 'put'
