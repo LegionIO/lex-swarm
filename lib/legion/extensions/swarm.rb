@@ -12,7 +12,7 @@ require 'legion/extensions/swarm/runners/workspace'
 module Legion
   module Extensions
     module Swarm
-      extend Legion::Extensions::Core if Legion::Extensions.const_defined? :Core
+      extend Legion::Extensions::Core if Legion::Extensions.const_defined? :Core, false
     end
   end
 end

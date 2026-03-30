@@ -6,7 +6,7 @@ module Legion
   module Extensions
     module Swarm
       module Actor
-        class StaleCheck < Legion::Extensions::Actors::Every
+        class StaleCheck < Legion::Extensions::Actors::Every # rubocop:disable Legion/Extension/EveryActorRequiresTime
           def runner_class
             Legion::Extensions::Swarm::Runners::Swarm
           end

@@ -38,19 +38,19 @@ module Legion
 
           def max_depth
             Legion::Settings.dig(:swarm, :max_depth) || 3
-          rescue StandardError
+          rescue StandardError => _e
             3
           end
 
           def max_concurrent
             Legion::Settings.dig(:swarm, :max_concurrent) || 20
-          rescue StandardError
+          rescue StandardError => _e
             20
           end
 
           def max_per_parent
             Legion::Settings.dig(:swarm, :max_per_parent) || 10
-          rescue StandardError
+          rescue StandardError => _e
             10
           end
 
@@ -61,7 +61,7 @@ module Legion
                         .exclude(parent_id: nil)
                         .exclude(status: %w[complete failed])
                         .count
-          rescue StandardError
+          rescue StandardError => _e
             0
           end
 
@@ -72,7 +72,7 @@ module Legion
                         .where(parent_id: parent_task_id)
                         .exclude(status: %w[complete failed])
                         .count
-          rescue StandardError
+          rescue StandardError => _e
             0
           end
         end

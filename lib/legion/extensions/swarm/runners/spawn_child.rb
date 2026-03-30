@@ -4,7 +4,7 @@ module Legion
   module Extensions
     module Swarm
       module Runners
-        module SpawnChild
+        module SpawnChild # rubocop:disable Legion/Extension/RunnerIncludeHelpers
           include Helpers::SubAgent if defined?(Helpers::SubAgent)
 
           def spawn_child(runner:, function:, payload:, parent_task_id:, **)

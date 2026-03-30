@@ -5,10 +5,10 @@ module Legion
     module Swarm
       module Runners
         module Swarm
-          include Legion::Extensions::Helpers::Lex if Legion::Extensions.const_defined?(:Helpers) &&
-                                                      Legion::Extensions::Helpers.const_defined?(:Lex)
+          include Legion::Extensions::Helpers::Lex if Legion::Extensions.const_defined?(:Helpers, false) &&
+                                                      Legion::Extensions::Helpers.const_defined?(:Lex, false)
 
-          def create_swarm(name:, objective:, roles: [], max_agents: 10, timeout: 3600, **) # rubocop:disable Metrics/ParameterLists
+          def create_swarm(name:, objective:, roles: [], max_agents: 10, timeout: 3600, **)
             charter = Helpers::Charter.new_charter(name: name, objective: objective,
                                                    roles: roles, max_agents: max_agents, timeout: timeout)
             id = swarm_store.create(charter)

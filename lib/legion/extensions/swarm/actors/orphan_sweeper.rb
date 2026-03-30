@@ -4,7 +4,7 @@ module Legion
   module Extensions
     module Swarm
       module Actor
-        class OrphanSweeper < Legion::Extensions::Actors::Every
+        class OrphanSweeper < Legion::Extensions::Actors::Every # rubocop:disable Legion/Extension/EveryActorRequiresTime
           def time = 300
           def run_now? = false
           def use_runner? = false
